@@ -1,24 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import data from "./data";
+import Mobile from "./Mobile";
+import Navbar from "./Navbar";
+
+const getStorgeTheme = () => {
+  let theme = "light-theme";
+  if (localStorage.getItem("theme")) {
+    theme = localStorage.getItem("theme");
+  }
+  return theme;
+};
 
 function App() {
+  const [theme, setTheme] = useState(getStorgeTheme());
+
+  const toggleTheme = () => {
+    if (theme === "light-theme") {
+      setTheme("dark-theme");
+    } else {
+      setTheme("light-theme");
+    }
+  };
+
+  useEffect(() => {
+    document.documentElement.className = theme;
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="bg-white mobile">
+      <nav>
+        <div className="nav-center">
+          {/* <h1>overreacted</h1>
+          <button className="btn" onClick={toggleTheme}>
+            toggle
+          </button> */}
+          <Navbar />
+        </div>
+      </nav>
+      <section className="articles">
+        <Mobile />
+      </section>
+    </main>
   );
 }
 
